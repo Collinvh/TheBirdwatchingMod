@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "birdwmod:items/feathers/killdeer"
+    "layer0": "birdwmod:item/feathers/killdeer"
   }
 }

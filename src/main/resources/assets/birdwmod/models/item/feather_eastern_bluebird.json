@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "birdwmod:items/feathers/eastern_bluebird"
+    "layer0": "birdwmod:item/feathers/eastern_bluebird"
   }
 }

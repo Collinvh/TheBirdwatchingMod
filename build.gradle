@@ -1,18 +1,25 @@
 plugins {
-	id 'fabric-loom' version '0.12-SNAPSHOT'
+	id 'fabric-loom' version '1.6-SNAPSHOT'
 	id 'maven-publish'
 }
 
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
+sourceCompatibility = JavaVersion.VERSION_21
+targetCompatibility = JavaVersion.VERSION_21
 
 archivesBaseName = "thebirdwatchingmod"
 version = "2.0.0"
 group = "com.ikerleon.thebirdwatchingmod"
 
 repositories {
-	maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
-	maven { url = 'https://maven.terraformersmc.com/'}
+	maven {
+		name = 'GeckoLib'
+		url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
+		content {
+			includeGroupByRegex("software\\.bernie.*")
+			includeGroup("com.eliotlash.mclib")
+		}
+	}
+	maven { url = 'https://maven.terraformersmc.com/releases/'}
 }
 
 dependencies {
@@ -27,12 +34,12 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	modImplementation 'software.bernie.geckolib:geckolib-fabric-1.19:3.1.5'
+	modImplementation "software.bernie.geckolib:geckolib-fabric-${project.minecraft_version}:${project.geckolib_version}"
 
 	//modImplementation "com.terraformersmc.terraform-api:terraform-biome-remapper-api-v1:4.1.0"
-	modImplementation "com.terraformersmc.terraform-api:terraform-surfaces-api-v1:4.1.0"
-	modImplementation "com.terraformersmc.terraform-api:terraform-config-api-v1:4.1.0"
-	modImplementation "com.terraformersmc.terraform-api:terraform-tree-api-v1:4.1.0"
+	modImplementation "com.terraformersmc.terraform-api:terraform-surfaces-api-v1:10.0.0"
+	modImplementation "com.terraformersmc.terraform-api:terraform-config-api-v1:10.0.0"
+	modImplementation "com.terraformersmc.terraform-api:terraform-tree-api-v1:10.0.0"
 
 	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
 	// You may need to force-disable transitiveness on them.
@@ -47,8 +54,8 @@ processResources {
 }
 
 tasks.withType(JavaCompile).configureEach {
-	// Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
-	it.options.release = 17
+	// Minecraft 1.20 upwards uses Java 21.
+	it.options.release = 21
 }
 
 java {

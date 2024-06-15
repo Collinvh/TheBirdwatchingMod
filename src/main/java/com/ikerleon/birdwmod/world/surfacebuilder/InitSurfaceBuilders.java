@@ -2,7 +2,6 @@ package com.ikerleon.birdwmod.world.surfacebuilder;
 
 import com.ikerleon.birdwmod.Main;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,6 +1,5 @@
 package com.ikerleon.birdwmod.blocks;
 
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -11,11 +10,9 @@ import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
 import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
@@ -46,7 +43,7 @@ public class BirdFeederBlock extends Block{
     private static final VoxelShape FEEDER_TOP_BOX = VoxelShapes.cuboid(0.0625 * 7, 0.0625 * 15, 0.0625 * 7, 0.0625 * 9, 0.0625 * 16, 0.0625 * 9);
 
     public BirdFeederBlock() {
-        super(FabricBlockSettings.of(Material.WOOD).nonOpaque());
+        super(AbstractBlock.Settings.copy(Blocks.ACACIA_PLANKS).nonOpaque());
 
         setDefaultState(getStateManager().getDefaultState().with(FILLED, false).with(HALF, EnumBlockHalf.LOWER));
     }
@@ -92,8 +89,8 @@ public class BirdFeederBlock extends Block{
     }
 
     @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        ItemStack stack = player.getStackInHand(hand);
+    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
+        ItemStack stack = player.getMainHandStack();
 
         if (world.getBlockState(pos).get(HALF)== EnumBlockHalf.UPPER && !world.getBlockState(pos).get(FILLED)) {
             if (stack.getItem() == Items.WHEAT_SEEDS && stack.getCount() >= 20) {
@@ -102,11 +99,11 @@ public class BirdFeederBlock extends Block{
                 return ActionResult.SUCCESS;
             }
             else {
-                return super.onUse(state, world, pos, player, hand, hit);
+                return super.onUse(state, world, pos, player, hit);
             }
         }
         else {
-            return super.onUse(state, world, pos, player, hand, hit);
+            return super.onUse(state, world, pos, player, hit);
         }
     }
 
@@ -166,14 +163,14 @@ public class BirdFeederBlock extends Block{
     }
 
     @Override
-    public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-        super.onBreak(world, pos, state, player);
+    public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         if(state.get(HALF)== EnumBlockHalf.UPPER){
             if(state.get(FILLED) && !world.isClient()){
                 ItemStack seeds = new ItemStack(Items.WHEAT_SEEDS, this.random.nextInt(20));
                 dropStack(world, pos, seeds);
             }
         }
+        return super.onBreak(world, pos, state, player);
     }
 
     public enum EnumBlockHalf implements StringIdentifiable

@@ -1,14 +1,19 @@
 package com.ikerleon.birdwmod.items;
 
 import com.ikerleon.birdwmod.Main;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.Item;
 
 public class ItemBirdwmodBasic extends Item {
     public ItemBirdwmodBasic() {
-        super(new Item.Settings().group(Main.THE_BIRDWATCHING_MOD));
+        this(new Item.Settings());
     }
 
     public ItemBirdwmodBasic(Item.Settings settings) {
-        super(settings.group(Main.THE_BIRDWATCHING_MOD));
+        super(settings);
+
+        ItemGroupEvents.modifyEntriesEvent(Main.THE_BIRDWATCHING_MOD).register(content -> {
+            content.add(this);
+        });
     }
 }

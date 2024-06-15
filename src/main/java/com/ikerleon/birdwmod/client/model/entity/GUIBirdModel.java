@@ -16,20 +16,18 @@ public class GUIBirdModel extends BirdBaseModel
     }
 
     @Override
-    public Identifier getTextureResource(Object rawEntity) {
-
-        BirdEntity entity = (BirdEntity) rawEntity;
-        String path = entity.getPath() + "/" + entity.getPath();
+    public Identifier getTextureResource(BirdEntity rawEntity) {
+        String path = rawEntity.getPath() + "/" + rawEntity.getPath();
         int variant;
-        if (entity.isDimorphic() && entity.getGender() == 1){
+        if (rawEntity.isDimorphic() && rawEntity.getGender() == 1){
             path += "_female";
-            variant = getVariantAtAge(entity.world.getTime(), entity.getBirdVariantsFemaleSpecific());
+            variant = getVariantAtAge(rawEntity.getWorld().getTime(), rawEntity.getBirdVariantsFemaleSpecific());
         } else {
-            variant = getVariantAtAge(entity.world.getTime(), entity.getBirdVariants());
+            variant = getVariantAtAge(rawEntity.getWorld().getTime(), rawEntity.getBirdVariants());
         }
         if(variant > 1){
             path += "_" + variant;
         }
-        return new Identifier(Main.ModID, buildTexturePath(path));
+        return Identifier.of(Main.ModID, buildTexturePath(path));
     }
 }

@@ -1,10 +1,11 @@
 package com.ikerleon.birdwmod.items;
 
 import com.ikerleon.birdwmod.entity.InitEntities;
-import net.minecraft.item.FoodComponent;
+import net.minecraft.component.type.FoodComponent;
 import net.minecraft.item.Item;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 public class InitItems {
 
@@ -64,73 +65,73 @@ public class InitItems {
     public static final Item SABINESGULLFEATHER = new ItemBirdwmodBasic();
 
     //meats
-    public static final Item BIGRAWMEAT = new ItemBirdwmodBasic(new Item.Settings().food(new FoodComponent.Builder().hunger(3).alwaysEdible().meat().build()));
-    public static final Item SMALLRAWMEAT = new ItemBirdwmodBasic(new Item.Settings().food(new FoodComponent.Builder().hunger(1).alwaysEdible().meat().build()));
-    public static final Item MEDIUMRAWMEAT = new ItemBirdwmodBasic(new Item.Settings().food(new FoodComponent.Builder().hunger(2).alwaysEdible().meat().build()));
+    public static final Item BIGRAWMEAT = new ItemBirdwmodBasic(new Item.Settings().food(new FoodComponent.Builder().nutrition(3).alwaysEdible().build()));
+    public static final Item SMALLRAWMEAT = new ItemBirdwmodBasic(new Item.Settings().food(new FoodComponent.Builder().nutrition(1).alwaysEdible().build()));
+    public static final Item MEDIUMRAWMEAT = new ItemBirdwmodBasic(new Item.Settings().food(new FoodComponent.Builder().nutrition(2).alwaysEdible().build()));
 
-    public static final Item BIGCOOCKEDMEAT = new ItemBirdwmodBasic(new Item.Settings().food(new FoodComponent.Builder().hunger(8).alwaysEdible().meat().build()));
-    public static final Item SMALLCOOCKEDMEAT = new ItemBirdwmodBasic(new Item.Settings().food(new FoodComponent.Builder().hunger(3).alwaysEdible().meat().build()));
-    public static final Item MEDIUMCOOCKEDMEAT = new ItemBirdwmodBasic(new Item.Settings().food(new FoodComponent.Builder().hunger(4).alwaysEdible().meat().build()));
+    public static final Item BIGCOOCKEDMEAT = new ItemBirdwmodBasic(new Item.Settings().food(new FoodComponent.Builder().nutrition(8).alwaysEdible().build()));
+    public static final Item SMALLCOOCKEDMEAT = new ItemBirdwmodBasic(new Item.Settings().food(new FoodComponent.Builder().nutrition(3).alwaysEdible().build()));
+    public static final Item MEDIUMCOOCKEDMEAT = new ItemBirdwmodBasic(new Item.Settings().food(new FoodComponent.Builder().nutrition(4).alwaysEdible().build()));
 
     public static void registerItems(){
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "binocular_basic"), BINOCULAR_BASIC);
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "binocular_medium"), BINOCULAR_MEDIUM);
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "binocular_pro"), BINOCULAR_PROFFESIONAL);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "binocular_basic"), BINOCULAR_BASIC);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "binocular_medium"), BINOCULAR_MEDIUM);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "binocular_pro"), BINOCULAR_PROFFESIONAL);
 
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "ring"), RING);
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "bird_guide"), BIRD_GUIDE);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "ring"), RING);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "bird_guide"), BIRD_GUIDE);
 
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "spawnegg_eurasian_bullfinch"), EURASIANBULLFINCH_SPAWNEGG);
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "spawnegg_rednecked_nightjar"), REDNECKEDNIGHTJAR_SPAWNEGG);
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "spawnegg_redflanked_bluetail"), REDFLANKEDBLUETAIL_SPAWNEGG);
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "spawnegg_stellers_eider"), STELLERSEIDER_SPAWNEGG);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "spawnegg_eurasian_bullfinch"), EURASIANBULLFINCH_SPAWNEGG);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "spawnegg_rednecked_nightjar"), REDNECKEDNIGHTJAR_SPAWNEGG);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "spawnegg_redflanked_bluetail"), REDFLANKEDBLUETAIL_SPAWNEGG);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "spawnegg_stellers_eider"), STELLERSEIDER_SPAWNEGG);
 
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "spawnegg_killdeer"), KILLDEER_SPAWNEGG);
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "spawnegg_eastern_bluebird"), EASTERNBLUEBIRD_SPAWNEGG);
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "spawnegg_northern_mockingbird"), NORTHERNMOCKINGBIRD_SPAWNEGG);
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "spawnegg_green_heron"), GREENHERON_SPAWNEGG);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "spawnegg_killdeer"), KILLDEER_SPAWNEGG);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "spawnegg_eastern_bluebird"), EASTERNBLUEBIRD_SPAWNEGG);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "spawnegg_northern_mockingbird"), NORTHERNMOCKINGBIRD_SPAWNEGG);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "spawnegg_green_heron"), GREENHERON_SPAWNEGG);
 
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "spawnegg_hoatzin"), HOATZIN_SPAWNEGG);
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "spawnegg_turquoisebrowed_motmot"), TURQUOISEBROWEDMOTMOT_SPAWNEGG);
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "spawnegg_kingofsaxony_bird_of_paradise"), KINGOFSAXONY_SPAWNEGG);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "spawnegg_hoatzin"), HOATZIN_SPAWNEGG);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "spawnegg_turquoisebrowed_motmot"), TURQUOISEBROWEDMOTMOT_SPAWNEGG);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "spawnegg_kingofsaxony_bird_of_paradise"), KINGOFSAXONY_SPAWNEGG);
 
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "spawnegg_great_grey_owl"), GREATGREYOWL_SPAWNEGG);
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "spawnegg_brown_booby"), BROWNBOOBY_SPAWNEGG);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "spawnegg_great_grey_owl"), GREATGREYOWL_SPAWNEGG);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "spawnegg_brown_booby"), BROWNBOOBY_SPAWNEGG);
 
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "spawnegg_razorbill"), RAZORBILL_SPAWNEGG);
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "spawnegg_himalayan_monal"), HIMALAYANMONAL_SPAWNEGG);
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "spawnegg_sabines_gull"), SABINESGULL_SPAWNEGG);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "spawnegg_razorbill"), RAZORBILL_SPAWNEGG);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "spawnegg_himalayan_monal"), HIMALAYANMONAL_SPAWNEGG);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "spawnegg_sabines_gull"), SABINESGULL_SPAWNEGG);
 
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "feather_eastern_bluebird_female"), EASTERNBLUEBIRDFEATHER_FEMALE);
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "feather_eastern_bluebird"), EASTERNBLUEBIRDFEATHER_MALE);
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "feather_eurasian_bullfinch_female"), EURASIANBULLFINCHDFEATHER_FEMALE);
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "feather_eurasian_bullfinch"), EURASIANBULLFINCHDFEATHER_MALE);
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "feather_green_heron"), GREENHERONFEATHER);
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "feather_killdeer"), KILLDEERFEATHER);
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "feather_northern_mockingbird"), NORTHERNMOCKINGBIRDFEATHER);
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "feather_redflanked_bluetail_female"), REDFLANCKEDBLUETAILFEATHER_FEMALE);
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "feather_redflanked_bluetail"), REDFLANCKEDBLUETAILFEATHER_MALE);
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "feather_red_necked_nightjar"), REDNECKEDNIGHTJARFEATHER);
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "feather_stellers_eider_female"), STELLERSEIDERFEATHER_FEMALE);
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "feather_stellers_eider"), STELLERSEIDERFEATHER_MALE);
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "feather_king_of_saxony"), KINGOFSAXONYFEATHER_MALE);
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "feather_king_of_saxony_female"), KINGOFSAXONYFEATHER_FEMALE);
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "feather_motmot"), MOTMOTFEATHER);
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "feather_hoatzin"), HOATZINFEATHER);
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "feather_great_grey_owl"), GREATGREYOWLFEATHER);
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "feather_brown_booby"), BROWNBOOBYFEATHER);
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "feather_razorbill"), RAZORBILLFEATHER);
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "feather_himalayan_monal"), HIMALAYANMONALMALEFEATHER);
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "feather_himalayan_monal_female"), HIMALAYANMONALFEMALEFEATHER);
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "feather_sabines_gull"), SABINESGULLFEATHER);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "feather_eastern_bluebird_female"), EASTERNBLUEBIRDFEATHER_FEMALE);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "feather_eastern_bluebird"), EASTERNBLUEBIRDFEATHER_MALE);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "feather_eurasian_bullfinch_female"), EURASIANBULLFINCHDFEATHER_FEMALE);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "feather_eurasian_bullfinch"), EURASIANBULLFINCHDFEATHER_MALE);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "feather_green_heron"), GREENHERONFEATHER);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "feather_killdeer"), KILLDEERFEATHER);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "feather_northern_mockingbird"), NORTHERNMOCKINGBIRDFEATHER);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "feather_redflanked_bluetail_female"), REDFLANCKEDBLUETAILFEATHER_FEMALE);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "feather_redflanked_bluetail"), REDFLANCKEDBLUETAILFEATHER_MALE);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "feather_red_necked_nightjar"), REDNECKEDNIGHTJARFEATHER);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "feather_stellers_eider_female"), STELLERSEIDERFEATHER_FEMALE);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "feather_stellers_eider"), STELLERSEIDERFEATHER_MALE);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "feather_king_of_saxony"), KINGOFSAXONYFEATHER_MALE);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "feather_king_of_saxony_female"), KINGOFSAXONYFEATHER_FEMALE);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "feather_motmot"), MOTMOTFEATHER);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "feather_hoatzin"), HOATZINFEATHER);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "feather_great_grey_owl"), GREATGREYOWLFEATHER);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "feather_brown_booby"), BROWNBOOBYFEATHER);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "feather_razorbill"), RAZORBILLFEATHER);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "feather_himalayan_monal"), HIMALAYANMONALMALEFEATHER);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "feather_himalayan_monal_female"), HIMALAYANMONALFEMALEFEATHER);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "feather_sabines_gull"), SABINESGULLFEATHER);
 
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "meatraw_big"), BIGRAWMEAT);
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "meatraw_small"), SMALLRAWMEAT);
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "meatraw_medium"), MEDIUMRAWMEAT);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "meatraw_big"), BIGRAWMEAT);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "meatraw_small"), SMALLRAWMEAT);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "meatraw_medium"), MEDIUMRAWMEAT);
 
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "meatcooked_big"), BIGCOOCKEDMEAT);
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "meatcooked_small"), SMALLCOOCKEDMEAT);
-        Registry.register(Registry.ITEM, new Identifier("birdwmod", "meatcooked_medium"), MEDIUMCOOCKEDMEAT);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "meatcooked_big"), BIGCOOCKEDMEAT);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "meatcooked_small"), SMALLCOOCKEDMEAT);
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "meatcooked_medium"), MEDIUMCOOCKEDMEAT);
 
     }
 }

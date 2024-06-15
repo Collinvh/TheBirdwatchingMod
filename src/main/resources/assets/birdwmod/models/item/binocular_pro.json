@@ -1,7 +1,7 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "birdwmod:items/binocular_pro"
+        "layer0": "birdwmod:item/binocular_pro"
     },
     "display": {
         "thirdperson_righthand": {

@@ -4,7 +4,6 @@ import com.ikerleon.birdwmod.Main;
 import com.ikerleon.birdwmod.world.biome.InitBiomes;
 import com.terraformersmc.terraform.config.BiomeConfig;
 import com.terraformersmc.terraform.config.BiomeConfigNode;
-import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeKeys;
 

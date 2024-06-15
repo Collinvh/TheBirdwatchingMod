@@ -3,11 +3,11 @@ package com.ikerleon.birdwmod.world.biome;
 import com.ikerleon.birdwmod.Main;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
+import net.minecraft.registry.BuiltinRegistries;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.registry.BuiltinRegistries;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeEffects;
 import net.minecraft.world.biome.GenerationSettings;
@@ -27,10 +27,10 @@ public class InitBiomes{
     private static final Map<RegistryKey<Biome>, Biome> BIOMES = new HashMap<>();
 
     static final Biome.Builder BIOME_TEMPLATE = new Biome.Builder()
-            .precipitation(Biome.Precipitation.RAIN)
+            .precipitation(true)
             .effects(createDefaultBiomeEffects().build());
 
-    static void addBasicFeatures(GenerationSettings.Builder generationSettings) {
+    static void addBasicFeatures(GenerationSettings.LookupBackedBuilder generationSettings) {
         DefaultBiomeFeatures.addLandCarvers(generationSettings);
         DefaultBiomeFeatures.addAmethystGeodes(generationSettings);
         DefaultBiomeFeatures.addDungeons(generationSettings);
@@ -77,14 +77,16 @@ public class InitBiomes{
     //public static final RegistryKey<Biome> MOUNTAIN_OLD_BIRCH_FOREST = add("mountain_old_birch_forest", MountainOldBirchForestBiome.MOUNTAIN_OLD_BIRCH_FOREST);
 
     static RegistryKey<Biome> add(String name, Biome biome) {
-        RegistryKey<Biome> key = RegistryKey.of(Registry.BIOME_KEY, new Identifier(Main.ModID, name));
-        BIOMES.put(key, biome);
-        return key;
+// Todo Json:
+//        RegistryKey<Biome> key = RegistryKey.of(Registries.BIOME_KEY, new Identifier(Main.ModID, name));
+//        BIOMES.put(key, biome);
+        return null;
     }
 
     public static void register() {
-        for (RegistryKey<Biome> key : BIOMES.keySet()) {
-            BuiltinRegistries.add(BuiltinRegistries.BIOME, key, BIOMES.get(key));
-        }
+// Todo: Json
+//        for (RegistryKey<Biome> key : BIOMES.keySet()) {
+//            BuiltinRegistries.add(BuiltinRegistries.BIOME, key, BIOMES.get(key));
+//        }
     }
 }

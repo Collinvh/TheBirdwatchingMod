@@ -3,7 +3,6 @@ package com.ikerleon.birdwmod.entity;
 import com.ikerleon.birdwmod.Main;
 import com.ikerleon.birdwmod.client.render.BirdBaseRenderer;
 import com.ikerleon.birdwmod.client.render.GUIBirdRenderer;
-import com.ikerleon.birdwmod.util.SoundHandler;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
@@ -12,13 +11,10 @@ import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
-import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class InitEntities {
 
@@ -41,8 +37,8 @@ public class InitEntities {
 
     // GUI bird uses a set of defaults that gets overridden anyways
     public static final EntityType<BirdEntity> GUI_BIRD_ENTITY = Registry.register(
-                Registry.ENTITY_TYPE, new Identifier(Main.ModID, "gui_display_bird"),
-                FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, (EntityType<BirdEntity> type, World worldIn) -> new BirdEntity(type, worldIn, BirdSettings.EURASIAN_BULLFINCH_SETTINGS)).dimensions(EntityDimensions.fixed(0.3F, 0.3F)).build());
+                Registries.ENTITY_TYPE, Identifier.of(Main.ModID, "gui_display_bird"),
+                EntityType.Builder.create((EntityType<BirdEntity> type, World worldIn) -> new BirdEntity(type, worldIn, BirdSettings.EURASIAN_BULLFINCH_SETTINGS), SpawnGroup.CREATURE).dimensions(0.3F, 0.3F).build());
 
     public static void registerAttributes(){
         FabricDefaultAttributeRegistry.register(GUI_BIRD_ENTITY, BirdSettings.EURASIAN_BULLFINCH_SETTINGS.createBirdAttributes());
@@ -99,9 +95,9 @@ public class InitEntities {
 
     public static EntityType<BirdEntity> registerBirdEntity(BirdEntity.Settings birdSettings) {
         EntityType<BirdEntity> bird = Registry.register(
-                Registry.ENTITY_TYPE,
-                new Identifier(Main.ModID, birdSettings.path),
-                FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, (EntityType<BirdEntity> type, World worldIn) -> new BirdEntity(type, worldIn, birdSettings)).dimensions(EntityDimensions.fixed(birdSettings.width, birdSettings.height)).build());
+                Registries.ENTITY_TYPE,
+                Identifier.of(Main.ModID, birdSettings.path),
+                EntityType.Builder.create((EntityType.EntityFactory<BirdEntity>) (type, world) -> new BirdEntity(type, world, birdSettings), SpawnGroup.CREATURE).dimensions(birdSettings.width, birdSettings.height).build());
         BiomeModifications.addSpawn(context -> biomeCompatibleWithSettings(context, birdSettings), SpawnGroup.CREATURE, bird, birdSettings.prevalence, birdSettings.minGroupSize, birdSettings.maxGroupSize);
         return bird;
     }

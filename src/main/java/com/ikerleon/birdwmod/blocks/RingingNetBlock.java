@@ -19,7 +19,7 @@ public class RingingNetBlock extends Block {
     public static final EnumProperty<EnumBlockDirection> DIRECTION = EnumProperty.of("direction", EnumBlockDirection.class);
 
     public RingingNetBlock() {
-        super(FabricBlockSettings.of(Material.COBWEB).nonOpaque());
+        super(AbstractBlock.Settings.copy(Blocks.COBWEB).nonOpaque());
 
         setDefaultState(getStateManager().getDefaultState().with(TYPE, EnumBlockType.NORMAL).with(DIRECTION, EnumBlockDirection.NORTH));
     }
@@ -73,7 +73,7 @@ public class RingingNetBlock extends Block {
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        if(ctx.getPlayerFacing() == Direction.NORTH || ctx.getPlayerFacing() == Direction.SOUTH){
+        if(ctx.getHorizontalPlayerFacing() == Direction.NORTH || ctx.getHorizontalPlayerFacing() == Direction.SOUTH){
             return this.getDefaultState().with(DIRECTION, EnumBlockDirection.NORTH);
         }
         else {
@@ -149,18 +149,12 @@ public class RingingNetBlock extends Block {
 
         public static EnumBlockType getFront(int index)
         {
-            switch(index) {
-                case 0:
-                    return EnumBlockType.NORMAL;
-                case 1:
-                    return EnumBlockType.RIGHT;
-                case 2:
-                    return EnumBlockType.LEFT;
-                case 3:
-                    return EnumBlockType.NET;
-                default:
-                    return EnumBlockType.NORMAL;
-            }
+            return switch (index) {
+                case 1 -> EnumBlockType.RIGHT;
+                case 2 -> EnumBlockType.LEFT;
+                case 3 -> EnumBlockType.NET;
+                default -> EnumBlockType.NORMAL;
+            };
         }
 
         public int getIndex()

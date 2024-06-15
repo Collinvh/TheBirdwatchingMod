@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "birdwmod:items/feathers/brown_booby"
+    "layer0": "birdwmod:item/feathers/brown_booby"
   }
 }

@@ -56,16 +56,16 @@ public class EatFromFeedersGoal extends WanderAroundFarGoal {
                 blockPos2 = (BlockPos)var5.next();
             } while(blockPos.equals(blockPos2));
 
-            Block block = this.mob.world.getBlockState(mutable2.set(blockPos2, Direction.DOWN)).getBlock();
+            Block block = this.mob.getWorld().getBlockState(mutable2.set(blockPos2, Direction.DOWN)).getBlock();
             bl = block instanceof BirdFeederBlock;
             if(bl){
-                if(this.mob.world.getBlockState(blockPos2).contains(BirdFeederBlock.FILLED)){
-                    filled = this.mob.world.getBlockState(blockPos2).get(BirdFeederBlock.FILLED);
+                if(this.mob.getWorld().getBlockState(blockPos2).contains(BirdFeederBlock.FILLED)){
+                    filled = this.mob.getWorld().getBlockState(blockPos2).get(BirdFeederBlock.FILLED);
                 }
             }
         }
 
-        while(!bl || !filled || !this.mob.world.isAir(blockPos2) || !this.mob.world.isAir(mutable.set(blockPos2, Direction.UP)));
+        while(!bl || !filled || !this.mob.getWorld().isAir(blockPos2) || !this.mob.getWorld().isAir(mutable.set(blockPos2, Direction.UP)));
 
         return Vec3d.ofBottomCenter(blockPos2);
     }

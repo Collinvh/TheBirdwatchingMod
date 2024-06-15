@@ -11,13 +11,13 @@ import java.util.function.Predicate;
 
 public class FollowLeaderGoal extends Goal {
     private final BirdEntity bird;
-    private final EntityType birdType;
+    private final EntityType<? extends BirdEntity> birdType;
     private int moveDelay;
     private int checkSurroundingDelay;
 
     public FollowLeaderGoal(BirdEntity bird) {
         this.bird = bird;
-        this.birdType = bird.getType();
+        this.birdType = (EntityType<? extends BirdEntity>) bird.getType();
         this.checkSurroundingDelay = this.getSurroundingSearchDelay(bird);
     }
 
@@ -40,11 +40,9 @@ public class FollowLeaderGoal extends Goal {
                 Predicate<BirdEntity> predicate = (groupingBirdEntityx) -> {
                     return groupingBirdEntityx.canHaveMoreBirdInGroup() || !groupingBirdEntityx.hasLeader();
                 };
-                List<? extends BirdEntity> list = this.bird.world.getEntitiesByClass(this.bird.getClass(), this.bird.getBoundingBox().expand(8.0D, 8.0D, 8.0D), predicate);
+                List<? extends BirdEntity> list = this.bird.getWorld().getEntitiesByClass(this.bird.getClass(), this.bird.getBoundingBox().expand(8.0D, 8.0D, 8.0D), predicate);
                 BirdEntity groupingBirdEntity = DataFixUtils.orElse(list.stream().filter(BirdEntity::canHaveMoreBirdInGroup).findAny(), this.bird);
-                groupingBirdEntity.pullInOtherBird(list.stream().filter((groupingBirdEntityx) -> {
-                    return !groupingBirdEntityx.hasLeader();
-                }));
+                groupingBirdEntity.pullInOtherBird(list.stream().filter((groupingBirdEntityx) -> !groupingBirdEntityx.hasLeader() && groupingBirdEntityx.getType().equals(birdType)));
                 return this.bird.hasLeader();
             }
         }

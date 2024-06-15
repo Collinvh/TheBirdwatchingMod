@@ -11,9 +11,9 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-public class ItemBirdGuide extends Item {
+public class ItemBirdGuide extends ItemBirdwmodBasic {
     public ItemBirdGuide(){
-        super(new Item.Settings().group(Main.THE_BIRDWATCHING_MOD).maxCount(1));
+        super(new Item.Settings().maxCount(1));
     }
 
     @Override
@@ -23,6 +23,6 @@ public class ItemBirdGuide extends Item {
         if (world.isClient()) {
             MinecraftClient.getInstance().setScreen(new GUIBirdGuide());
         }
-        return new TypedActionResult<ItemStack>(ActionResult.PASS, itemstack);
+        return new TypedActionResult<>(ActionResult.PASS, itemstack);
     }
 }

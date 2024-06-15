@@ -1,8 +1,9 @@
 package com.ikerleon.birdwmod.util;
 
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 public class SoundHandler {
 
@@ -32,7 +33,7 @@ public class SoundHandler {
 
     private static SoundEvent register(String id)
     {
-        return Registry.register(Registry.SOUND_EVENT, id, new SoundEvent(new Identifier("birdwmod", id)));
+        return Registry.register(Registries.SOUND_EVENT, id, SoundEvent.of(Identifier.of("birdwmod", id)));
     }
 
     public static void register() {}

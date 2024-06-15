@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "birdwmod:items/meats/small_cooked"
+    "layer0": "birdwmod:item/meats/small_cooked"
   }
 }

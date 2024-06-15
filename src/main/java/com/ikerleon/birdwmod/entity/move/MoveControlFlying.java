@@ -7,7 +7,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.control.MoveControl;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.tag.BlockTags;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
@@ -48,10 +48,10 @@ public class MoveControlFlying extends MoveControl
                         this.entity.setYaw(this.wrapDegrees(this.entity.getYaw(), q, 90.0F));
                         this.entity.setMovementSpeed((float) (this.speed * this.entity.getAttributeValue(EntityAttributes.GENERIC_MOVEMENT_SPEED)));
                         BlockPos blockPos = this.entity.getBlockPos();
-                        BlockState blockState = this.entity.world.getBlockState(blockPos);
+                        BlockState blockState = this.entity.getWorld().getBlockState(blockPos);
                         Block block = blockState.getBlock();
-                        VoxelShape voxelShape = blockState.getCollisionShape(this.entity.world, blockPos);
-                        if (o > (double) this.entity.stepHeight && d * d + e * e < (double) Math.max(1.0F, this.entity.getWidth()) || !voxelShape.isEmpty() && this.entity.getY() < voxelShape.getMax(Direction.Axis.Y) + (double) blockPos.getY() && !blockState.isIn(BlockTags.DOORS) && !blockState.isIn(BlockTags.FENCES)) {
+                        VoxelShape voxelShape = blockState.getCollisionShape(this.entity.getWorld(), blockPos);
+                        if (o > (double) this.entity.getStepHeight() && d * d + e * e < (double) Math.max(1.0F, this.entity.getWidth()) || !voxelShape.isEmpty() && this.entity.getY() < voxelShape.getMax(Direction.Axis.Y) + (double) blockPos.getY() && !blockState.isIn(BlockTags.DOORS) && !blockState.isIn(BlockTags.FENCES)) {
                             this.entity.getJumpControl().setActive();
                             this.state = MoveControl.State.JUMPING;
                         }

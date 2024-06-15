@@ -3,6 +3,7 @@ package com.ikerleon.birdwmod.world.feature.placer;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.PillarBlock;
@@ -20,7 +21,7 @@ import java.util.Random;
 import java.util.function.BiConsumer;
 
 public class FallenTrunkPlacer extends StraightTrunkPlacer {
-    public static final Codec<FallenTrunkPlacer> CODEC = RecordCodecBuilder.create((instance) -> fillTrunkPlacerFields(instance).apply(instance, FallenTrunkPlacer::new));
+    public static final MapCodec<FallenTrunkPlacer> CODEC = RecordCodecBuilder.mapCodec((instance) -> fillTrunkPlacerFields(instance).apply(instance, FallenTrunkPlacer::new));
 
     public FallenTrunkPlacer(int baseHeight, int firstRandomHeight, int secondRandomHeight) {
         super(baseHeight, firstRandomHeight, secondRandomHeight);
@@ -50,7 +51,7 @@ public class FallenTrunkPlacer extends StraightTrunkPlacer {
 
     protected static boolean placeTrunkBlock(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, net.minecraft.util.math.random.Random random, BlockPos blockPos, TreeFeatureConfig treeFeatureConfig, Direction.Axis axis, List<FoliagePlacer.TreeNode> treeNodes) {
         if (TreeFeature.canReplace(world, blockPos)) {
-            replacer.accept(blockPos, treeFeatureConfig.trunkProvider.getBlockState(random, blockPos).with(PillarBlock.AXIS, axis));
+            replacer.accept(blockPos, treeFeatureConfig.trunkProvider.get(random, blockPos).with(PillarBlock.AXIS, axis));
             treeNodes.add(new FoliagePlacer.TreeNode(blockPos.toImmutable(), 0, false));
             return true;
         } else {

@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "birdwmod:items/binocular_pulling"
+    "layer0": "birdwmod:item/binocular_pulling"
   }
 }

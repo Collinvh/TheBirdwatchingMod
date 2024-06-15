@@ -1,6 +1,7 @@
 package com.ikerleon.birdwmod.items;
 
 import com.ikerleon.birdwmod.Main;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -15,8 +16,12 @@ public class ItemBinocular extends Item {
     public final float zoom;
 
     public ItemBinocular(float zoom) {
-        super(new Item.Settings().group(Main.THE_BIRDWATCHING_MOD));
+        super(new Item.Settings());
         this.zoom=zoom;
+
+        ItemGroupEvents.modifyEntriesEvent(Main.THE_BIRDWATCHING_MOD).register(content -> {
+            content.add(this);
+        });
     }
 
     @Override

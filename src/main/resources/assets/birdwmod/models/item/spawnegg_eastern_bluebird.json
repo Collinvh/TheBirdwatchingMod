@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "birdwmod:items/spawneggs/eastern_bluebird_spawnegg"
+    "layer0": "birdwmod:item/spawneggs/eastern_bluebird_spawnegg"
   }
 }

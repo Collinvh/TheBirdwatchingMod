@@ -2,14 +2,9 @@
   "required": true,
   "minVersion": "0.8",
   "package": "com.ikerleon.birdwmod.mixin",
-  "compatibilityLevel": "JAVA_8",
+  "compatibilityLevel": "JAVA_21",
   "mixins": [
     "OcelotEntityMixin"
-  ],
-  "client": [
-    "GameRendererMixin",
-    "InGameHudMixin",
-    "MouseMixin"
   ],
   "injectors": {
     "defaultRequire": 1

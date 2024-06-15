@@ -4,13 +4,31 @@ import com.ikerleon.birdwmod.Main;
 
 import com.ikerleon.birdwmod.entity.BirdEntity;
 import net.minecraft.util.Identifier;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.processor.IBone;
-import software.bernie.geckolib3.model.AnimatedGeoModel;
+import software.bernie.geckolib.animatable.GeoAnimatable;
+import software.bernie.geckolib.model.GeoModel;
 
-public class BirdBaseModel extends AnimatedGeoModel
+public class BirdBaseModel extends GeoModel<BirdEntity>
 {
     public BirdBaseModel(){ super();}
+
+    @Override
+    public Identifier getAnimationResource(BirdEntity animatable) {
+        return Identifier.of(Main.ModID, buildAnimationPath(animatable.getPath()));
+    }
+
+    @Override
+    public Identifier getTextureResource(BirdEntity animatable) {
+        BirdEntity entity = animatable;
+        String path = entity.getPath() + "/" + entity.getPath();
+        if (entity.isDimorphic() && entity.getGender() == 1 ){path += "_female";}
+        if (entity.getVariant() >= 2) { path += ("_"+entity.getVariant()); }
+        return Identifier.of(Main.ModID, buildTexturePath(path));
+    }
+
+    @Override
+    public Identifier getModelResource(BirdEntity animatable) {
+        return Identifier.of(Main.ModID, buildModelPath(animatable.getPath()));
+    }
 
     protected static String buildModelPath(String path){
         return "geo/"+path+".geo.json";
@@ -22,44 +40,5 @@ public class BirdBaseModel extends AnimatedGeoModel
 
     protected static String buildAnimationPath(String path){
         return "animations/"+path+".animation.json";
-    }
-
-    @Override
-    public Identifier getModelResource(Object entity)
-    {return new Identifier(Main.ModID, buildModelPath(((BirdEntity) entity).getPath()));}
-
-    @Override
-    public Identifier getTextureResource(Object rawEntity) {
-        BirdEntity entity = (BirdEntity) rawEntity;
-        String path = entity.getPath() + "/" + entity.getPath();
-        if (entity.isDimorphic() && entity.getGender() == 1 ){path += "_female";}
-        if (entity.getVariant() >= 2) { path += ("_"+entity.getVariant()); }
-        return new Identifier(Main.ModID, buildTexturePath(path));
-    }
-
-    @Override
-    public Identifier getAnimationResource(Object entity)
-    {return new Identifier(Main.ModID, buildAnimationPath(((BirdEntity) entity).getPath()));}
-
-    //TODO
-
-    @Override
-    public double getCurrentTick() {
-        return super.getCurrentTick();
-    }
-
-    @Override
-    public void setLivingAnimations(Object entity, Integer uniqueID) {
-        super.setLivingAnimations(entity, uniqueID);
-    }
-
-    @Override
-    public void setLivingAnimations(Object o, Integer integer, AnimationEvent animationEvent) {
-
-    }
-
-    @Override
-    public IBone getBone(String boneName) {
-        return super.getBone(boneName);
     }
 }
