@@ -1,6 +1,7 @@
 package com.ikerleon.birdwmod.blocks;
 
 import com.ikerleon.birdwmod.Main;
+import com.ikerleon.birdwmod.items.BlockItemBirdwmodBasic;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
@@ -16,15 +17,15 @@ public class InitBlocks {
 
     public static void registerBlocks(){
         Registry.register(Registries.BLOCK, Identifier.of("birdwmod", "ringingnet"), RINGING_NET);
-        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "ringingnet"), new BlockItem(RINGING_NET, new Item.Settings()));
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "ringingnet"), new BlockItemBirdwmodBasic(RINGING_NET, new Item.Settings()));
 
         Registry.register(Registries.BLOCK, Identifier.of("birdwmod", "birdfeeder"), BIRD_FEEDER);
-        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "birdfeeder"), new BlockItem(BIRD_FEEDER, new Item.Settings()));
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "birdfeeder"), new BlockItemBirdwmodBasic(BIRD_FEEDER, new Item.Settings()));
 
         Registry.register(Registries.BLOCK, Identifier.of("birdwmod", "lichen"), LICHEN);
-        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "lichen"), new BlockItem(LICHEN, new Item.Settings()));
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "lichen"), new BlockItemBirdwmodBasic(LICHEN, new Item.Settings()));
 
         Registry.register(Registries.BLOCK, Identifier.of("birdwmod", "ericabush"), ERICA_BUSH);
-        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "ericabush"), new BlockItem(ERICA_BUSH, new Item.Settings()));
+        Registry.register(Registries.ITEM, Identifier.of("birdwmod", "ericabush"), new BlockItemBirdwmodBasic(ERICA_BUSH, new Item.Settings()));
     }
 }

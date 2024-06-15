@@ -28,7 +28,7 @@ public class Main implements ModInitializer {
 
 
 	public static final RegistryKey<ItemGroup> THE_BIRDWATCHING_MOD = RegistryKey.of(RegistryKeys.ITEM_GROUP, Identifier.of(ModID, "birdwatchingmodtab"));
-	public static final RegistryKey<ItemGroup> THE_BIRDWATCHING_MOD_SPAWN_EGGS = RegistryKey.of(RegistryKeys.ITEM_GROUP, Identifier.of(ModID, "birdwatchingmodtab"));
+	public static final RegistryKey<ItemGroup> THE_BIRDWATCHING_MOD_SPAWN_EGGS = RegistryKey.of(RegistryKeys.ITEM_GROUP, Identifier.of(ModID, "birdwatchingmodtabspawneggs"));
 
 	@Override
 	public void onInitialize() {

@@ -8,5 +8,10 @@
   ],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "client": [
+    "GameRendererMixin",
+    "InGameHudMixin",
+    "MouseMixin"
+  ]
 }
