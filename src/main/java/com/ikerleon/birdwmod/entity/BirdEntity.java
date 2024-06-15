@@ -59,8 +59,9 @@ import java.util.stream.Stream;
 
 public class BirdEntity extends AnimalEntity implements GeoEntity {
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
-    private final RawAnimation FLYING_ANIM = RawAnimation.begin().then("animation.bat.fly", Animation.LoopType.LOOP);
-    private final RawAnimation IDLE_ANIM = RawAnimation.begin().then("animation.bat.idle", Animation.LoopType.LOOP);
+    private final RawAnimation FLYING_ANIM = RawAnimation.begin().thenPlay("animation.bat.fly");
+    private final RawAnimation WALKING_ANIM = RawAnimation.begin().thenPlay("animation.bat.walk");
+    private final RawAnimation IDLE_ANIM = RawAnimation.begin().thenPlay("animation.bat.idle");
     //Variables
     protected static final TrackedData<Integer> GENDER;
     protected static final TrackedData<Integer> VARIANT;
@@ -377,12 +378,18 @@ public class BirdEntity extends AnimalEntity implements GeoEntity {
             }
         } else {
             if(controller.getCurrentAnimation() != null) {
-                if(controller.getCurrentRawAnimation() != IDLE_ANIM) {
-                    controller.setAnimation(IDLE_ANIM);
+                if(event.isMoving()) {
+                    if (controller.getCurrentRawAnimation() != WALKING_ANIM) {
+                        controller.setAnimation(WALKING_ANIM);
+                    }
+                } else {
+                    if (controller.getCurrentRawAnimation() != IDLE_ANIM) {
+                        controller.setAnimation(IDLE_ANIM);
+                    }
                 }
             } else {
                 controller.setAnimation(IDLE_ANIM);
-            }   
+            }
         }
         return PlayState.CONTINUE;
     }
