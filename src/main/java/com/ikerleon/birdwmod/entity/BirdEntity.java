@@ -59,6 +59,8 @@ import java.util.stream.Stream;
 
 public class BirdEntity extends AnimalEntity implements GeoEntity {
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
+    private final RawAnimation FLYING_ANIM = RawAnimation.begin().then("animation.bat.fly", Animation.LoopType.LOOP);
+    private final RawAnimation IDLE_ANIM = RawAnimation.begin().then("animation.bat.idle", Animation.LoopType.LOOP);
     //Variables
     protected static final TrackedData<Integer> GENDER;
     protected static final TrackedData<Integer> VARIANT;
@@ -358,12 +360,29 @@ public class BirdEntity extends AnimalEntity implements GeoEntity {
     }
 
     private PlayState predicate(AnimationState<BirdEntity> event) {
+        AnimationController<BirdEntity> controller = event.getController();
         if(Objects.equals(event.getController().getName(), "songcontroller")){
-            AnimationController<BirdEntity> controller = event.getController();
             controller.forceAnimationReset();
             if (controller.getAnimationState() == AnimationController.State.STOPPED && this.isOnGround() && random.nextInt(100)<2) {
                 controller.setAnimation(RawAnimation.begin().then("song", Animation.LoopType.PLAY_ONCE));
             }
+        }
+        if(!this.isOnGround()) {
+            if(controller.getCurrentAnimation() != null) {
+                if(controller.getCurrentRawAnimation() != FLYING_ANIM) {
+                    controller.setAnimation(FLYING_ANIM);
+                }
+            } else {
+                controller.setAnimation(FLYING_ANIM);
+            }
+        } else {
+            if(controller.getCurrentAnimation() != null) {
+                if(controller.getCurrentRawAnimation() != IDLE_ANIM) {
+                    controller.setAnimation(IDLE_ANIM);
+                }
+            } else {
+                controller.setAnimation(IDLE_ANIM);
+            }   
         }
         return PlayState.CONTINUE;
     }
