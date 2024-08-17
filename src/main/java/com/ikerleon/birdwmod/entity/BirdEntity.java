@@ -136,6 +136,14 @@ public class BirdEntity extends AnimalEntity implements GeoEntity {
         int minGroupSize = 1;
         int maxGroupSize = 1;
 
+        public SoundEvent getCallSound() {
+            return callSound;
+        }
+
+        public SoundEvent getCallSoundFemaleSpecific() {
+            return callSoundFemaleSpecific;
+        }
+
         public static class BiomeDescriptor {
             //private final Biome.Category biomeCategory;
             private final BiomeTemperature temperature;
@@ -209,6 +217,9 @@ public class BirdEntity extends AnimalEntity implements GeoEntity {
                 //builder.append(rawName.substring(0, 1).toUpperCase());
                 //builder.append(rawName.substring(1).replaceAll("_", " "));
                 if(i != spawnBiomes.size() - 1){builder.append(", ");}
+            }
+            if(spawnBiomes.isEmpty()) {
+                builder.append("N/A");
             }
             return builder.toString();
         }
@@ -895,6 +906,51 @@ public class BirdEntity extends AnimalEntity implements GeoEntity {
                 break;
         }
         super.playAmbientSound();
+    }
+
+    public Settings getSettings() {
+        return settings;
+    }
+
+    public SoundEvent getSound(SoundEvent callSound, SoundEvent callSoundFemaleSpecific) {
+        switch(settings.callType) {
+            case BOTH_CALL:
+                if (this.isOnGround() && !isSleeping()) {
+                    return callSound;
+                }
+                break;
+            case MALES_ONLY:
+                if (this.isOnGround() && !isSleeping() && this.getGender() == 0) {
+                    return callSound;
+                }
+                break;
+            case GENDERED_CALLS:
+                if (this.isOnGround() && !isSleeping()) {
+                    if (this.getGender() == 0) {
+                        return callSound;
+                    } else {
+                        return callSoundFemaleSpecific;
+                    }
+                }
+                break;
+            case NO_CALL:
+                break;
+            case MOCKINGBIRD:  // A very special case!
+                if(!isSleeping()) {
+                    // 50% chance to mimic
+                    if (getRandom().nextBoolean()) {
+                         return BirdSettings.MOCKINGBIRD_MIMICKABLE.get(getRandom().nextInt(BirdSettings.MOCKINGBIRD_MIMICKABLE.size()));
+                    } else {
+                        if (this.getGender() == 0) {
+                            return SoundHandler.MOCKINGBIRD_SONG;
+                        } else {
+                            return SoundHandler.MOCKINGBIRD_CALL;
+                        }
+                    }
+                }
+                break;
+        }
+        return callSound;
     }
 
     public boolean goesToFeeders() {

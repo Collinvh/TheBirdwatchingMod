@@ -4,31 +4,34 @@ import com.ikerleon.birdwmod.Main;
 import com.ikerleon.birdwmod.entity.BirdEntity;
 import com.ikerleon.birdwmod.entity.BirdSettings;
 import com.ikerleon.birdwmod.entity.InitEntities;
-import com.ikerleon.birdwmod.items.InitItems;
 import com.mojang.blaze3d.systems.RenderSystem;
 import edu.umd.cs.findbugs.annotations.Nullable;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.PageTurnWidget;
 import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.render.OverlayTexture;
+import net.minecraft.client.render.model.BakedModel;
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.NarratorManager;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.CowEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.*;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.crash.CrashException;
+import net.minecraft.util.crash.CrashReport;
+import net.minecraft.world.World;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
-import org.lwjgl.opengl.GL11;
 
 public class GUIBirdGuide extends Screen {
+    private static final Vector3f DIFFUSE_LIGHT_0 = new Vector3f(0.2F, 1.0F, -0.7F).normalize();
+    private static final Vector3f DIFFUSE_LIGHT_1 = new Vector3f(-0.2F, 1.0F, 0.7F).normalize();
     private final int bookImageHeight = 180;
     private final int bookImageWidth = 292;
 
@@ -38,6 +41,10 @@ public class GUIBirdGuide extends Screen {
     private ButtonWidget buttonDone;
     private ButtonWidget buttonNextPage;
     private ButtonWidget buttonPreviousPage;
+    private ButtonWidget soundButton;
+
+    private BirdEntity entity;
+
     private static final Identifier cover= Identifier.of("birdwmod" + ":textures/gui/birdguide/cover.png");
     private static final Identifier page= Identifier.of("birdwmod" + ":textures/gui/birdguide/page.png");
 
@@ -108,6 +115,7 @@ public class GUIBirdGuide extends Screen {
                 ++currPage;
                 buttonNextPage.visible = (currPage < bookTotalPages - 1);
                 buttonPreviousPage.visible = currPage > 0;
+                soundButton.visible = currPage > 0;
             }
         }).dimensions(offLeft+bookImageWidth+15, offTop, 50, 20).build());
         this.addDrawableChild(buttonPreviousPage = ButtonWidget.builder(Text.literal("<-"), (a) -> {
@@ -116,9 +124,18 @@ public class GUIBirdGuide extends Screen {
                 --currPage;
                 buttonPreviousPage.visible = currPage > 0;
                 buttonNextPage.visible = (currPage < bookTotalPages - 1);
+                soundButton.visible = currPage > 0;
             }
         }).dimensions(offLeft-65, offTop, 50, 20).build());
+        soundButton = ButtonWidget.builder(Text.literal("Sound"), (a) -> {
+            if(this.entity != null) {
+                assert client.player != null;
+                client.player.playSound(this.entity.getSound(entity.getSettings().getCallSound(), entity.getSettings().getCallSoundFemaleSpecific()), 1, 1);
+            }
+        }).dimensions(offLeft+(bookImageWidth/2) + 90, offTop + 77, 50, 20).build();
+        this.addDrawableChild(soundButton);
         buttonPreviousPage.visible = false;
+        soundButton.visible = false;
     }
 
     public static MutableText getTranslatedText(@Nullable Formatting format, BirdEntity bird, String section){
@@ -137,8 +154,6 @@ public class GUIBirdGuide extends Screen {
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         int offLeft = (int)((this.width - 292) / 2.0F);
         int offTop = (int)((this.height - 225) / 2.0F);
-        int mousePosX = mouseX;
-        int mousePosY = mouseY;
 
         if(currPage==0) {
             RenderSystem.setShader(GameRenderer::getPositionTexProgram);
@@ -155,30 +170,69 @@ public class GUIBirdGuide extends Screen {
         context.drawTexture(page, offLeft, offTop, 0, 0, bookImageWidth ,bookImageHeight ,bookImageWidth ,bookImageHeight);
 
         BirdEntity.Settings birdSettings = BirdSettings.bookBirds.get(currPage - 1);
-        BirdEntity entity = new BirdEntity(InitEntities.GUI_BIRD_ENTITY, MinecraftClient.getInstance().world, birdSettings);
-        context.drawText(textRenderer, getTranslatedText(Formatting.BOLD, entity, "title"), offLeft+(bookImageWidth/4),offTop + 15,0, false);
-        context.drawText(textRenderer, getTranslatedText(Formatting.ITALIC, entity, "subtitle"), offLeft+(bookImageWidth/4),offTop + 25,0, false);
-        context.drawText(textRenderer, getTranslatedText(Formatting.ITALIC, entity, "text"), offLeft + 13, 40 + offTop,0, false);
-        context.drawText(textRenderer, CharacteristicsTitle, offLeft+(bookImageWidth/4)+(bookImageWidth/2),offTop + 15,0, false);
-        context.drawText(textRenderer, "", offLeft+(bookImageWidth/4)+(bookImageWidth/2), offTop + 25,0, false);
-        context.drawText(textRenderer, Formatting.ITALIC + "Male", offLeft + 13, 40 + offTop,0, false);
-        context.drawText(textRenderer, BiomesTitle, offLeft+(bookImageWidth/4)+(bookImageWidth/2), 125 + offTop,0, false);
-        context.drawText(textRenderer, birdSettings.spawnBiomesAsString(),  offLeft + 160, 140 + offTop,0, false);
+        if(entity == null || entity.getSettings() != birdSettings) {
+            entity = new BirdEntity(InitEntities.GUI_BIRD_ENTITY, MinecraftClient.getInstance().world, birdSettings);
+        }
+        context.drawText(textRenderer, getTranslatedText(Formatting.BOLD, entity, "title"), offLeft+(bookImageWidth/4) -40,offTop + 15,0, false);
+        context.drawText(textRenderer, getTranslatedText(Formatting.ITALIC, entity, "subtitle"), offLeft+(bookImageWidth/4) -40,offTop + 25,0, false);
+        context.drawTextWrapped(textRenderer, getTranslatedText(Formatting.ITALIC, entity, "text"), offLeft + 13, 40 + offTop,130, 0);
+        context.drawText(textRenderer, CharacteristicsTitle, offLeft+(bookImageWidth/4)+(bookImageWidth/2) -40,offTop + 15,0, false);
+        context.drawText(textRenderer, "", offLeft+(bookImageWidth/4)+(bookImageWidth/2) -40, offTop + 25,0, false);
+        context.drawText(textRenderer, Formatting.ITALIC + "Male", offLeft + 10, 10 + offTop,0, false);
+        context.drawText(textRenderer, BiomesTitle, offLeft+(bookImageWidth/4)+(bookImageWidth/2) -40, 125 + offTop,0, false);
+        context.drawTextWrapped(textRenderer, StringVisitable.plain(birdSettings.spawnBiomesAsString()),  offLeft + 160, 140 + offTop, 50,0);
         entity.setGender(0);
         entity.setVariant(0);
         entity.setOnGround(true);
-
-//        this.itemRenderer.renderGuiItemIcon(new ItemStack(entity.getFeatherItem(), 1), offLeft + 175, 95 + offTop);
-
+        assert client != null;
+        renderItem(context, null, client.world, new ItemStack(entity.getFeatherItem()), offLeft + 175, 95 + offTop, 0, 0);
         Vector3f vector3f = new Vector3f(0.0f, entity.getHeight() / 2.0f, 0.0f);
         float h = (float)(mouseX + mouseY) / 2.0f;
         float j = (float)Math.atan((h - mouseY) / 40.0f);
         Quaternionf quaternionf = new Quaternionf().rotateZ((float)Math.PI);
-        Quaternionf quaternionf2 = new Quaternionf().rotateX(j * 20.0f * ((float)Math.PI / 180));
+        Quaternionf quaternionf2 = new Quaternionf().rotateX(-j * 20.0f * ((float)Math.PI / 180));
         quaternionf.mul(quaternionf2);
-        InventoryScreen.drawEntity(context, offLeft+((float) bookImageWidth /4)+((float) bookImageWidth /2), offTop + 75, (int)(entity.getScaleFactor() * 100), vector3f, quaternionf, quaternionf2, entity);
+        InventoryScreen.drawEntity(context, offLeft+((float) bookImageWidth /4)+((float) bookImageWidth /2), offTop + 90, (int)(entity.getScaleFactor() * 100), vector3f, quaternionf.rotateY(180), quaternionf2, entity);
 
         super.render(context, mouseX, mouseY, delta);
+    }
+
+    private void renderItem(DrawContext graphics, @Nullable LivingEntity pEntity, @javax.annotation.Nullable World pLevel, ItemStack pStack, int pX, int pY, int pSeed, int pGuiOffset) {
+        if (!pStack.isEmpty()) {
+            assert this.client != null;
+            BakedModel bakedmodel = this.client.getItemRenderer().getModel(pStack, pLevel, pEntity, pSeed);
+            MatrixStack pose = new MatrixStack();
+            pose.push();
+            pose.translate((float)(pX + 8), (float)(pY + 8), (float)(150 + (bakedmodel.isSideLit() ? pGuiOffset : 0)));
+
+            try {
+                pose.scale(16, -16, 16);
+                boolean flag = !bakedmodel.useAmbientOcclusion();
+                if (flag) {
+                    RenderSystem.setupGuiFlatDiffuseLighting(DIFFUSE_LIGHT_0, DIFFUSE_LIGHT_1);
+                }
+                graphics.draw();
+                this.client
+                        .getItemRenderer()
+                        .renderItem(pStack, ModelTransformationMode.GUI, false, pose, graphics.getVertexConsumers(), 15728880, OverlayTexture.DEFAULT_UV, bakedmodel);
+                if (flag) {
+                    RenderSystem.setupGui3DDiffuseLighting(DIFFUSE_LIGHT_0, DIFFUSE_LIGHT_1);
+                }
+            } catch (Throwable throwable) {
+                CrashReport crashreport = CrashReport.create(throwable, "Rendering item");
+                throw new CrashException(crashreport);
+            }
+
+            pose.pop();
+        }
+    }
+
+    @Override
+    protected void applyBlur(float delta) {
+    }
+
+    @Override
+    public void blur() {
     }
 
     @Override
